@@ -1,4 +1,5 @@
 type Dictionary tKey tValue = [(tKey, tValue)]
+deriving (Show)
 
 myIsNull :: Dictionary tKey tValue -> Bool
 myIsNull [] = True
@@ -14,21 +15,21 @@ myFind k ((key,value):tail) =
 	then Just value
 	else myFind k tail
 	
-myInsert :: tKey -> tValue -> Dictionary tKey tValue -> Dictionary tKey tValue
+myInsert :: (Eq tKey) => tKey -> tValue -> Dictionary tKey tValue -> Dictionary tKey tValue 
 myInsert tKey tValue [] = (tKey, tValue):[]
 myInsert tKey tValue ((key,value):tail) =
 	if tKey == key
 	then (key,value):tail
 	else (key, value):(myInsert tKey tValue tail)
 	
-myUpdate :: tkey -> tValue -> Dictionary tKey tValue -> Dictionary tKey tValue
+myUpdate :: (Eq tKey) => tKey -> tValue -> Dictionary tKey tValue -> Dictionary tKey tValue
 myUpdate tKey tValue [] = (tKey, tValue):[]
 myUpdate tKey tValue ((key,value):tail) =
 	if tKey == key
 	then (key, tValue):tail
 	else (key, value):(myUpdate tKey tValue tail)
 
-myDelete :: tkey -> Dictionary tKey tValue -> Dictionary tKey tValue
+myDelete :: (Eq tKey) => tKey -> Dictionary tKey tValue -> Dictionary tKey tValue
 myDelete _ [] = []
 myDelete tKey ((key,value):tail) =
 	if tKey == key
